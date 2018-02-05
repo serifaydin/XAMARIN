@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModel="clr-namespace:App1.ViewModels; assembly=App1"
+             x:Class="App1.Views.DefaultPage" x:Name="defaultPage">
+
+    <ContentPage.BindingContext>
+        <viewModel:DefaultViewModel/>
+    </ContentPage.BindingContext>
+
+    <ContentPage.Content>
+        <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+
+            <Image Source="info.png" WidthRequest="40" HeightRequest="40" HorizontalOptions="EndAndExpand">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer
+                 Command="{Binding Path=BindingContext.InformationCommand,Source={x:Reference defaultPage}}"/>
+                </Image.GestureRecognizers>
+            </Image>
+
+
+            <StackLayout Padding="20,0,20,0">
+                <Entry Placeholder="Tam Adınız" Text="{Binding UserModel.TamAd}"></Entry>
+                <Entry Placeholder="Kullanici Adi" Text="{Binding UserModel.KullaniciAdi}"></Entry>
+                <Entry Placeholder="Sifre" Text="{Binding UserModel.Password}"></Entry>
+
+                <Button Text="Kullanıcı Ekle" Command="{Binding Path=BindingContext.LoginCommand,Source={x:Reference defaultPage}}"
+                        BackgroundColor="Green" TextColor="White" FontAttributes="Bold"></Button>
+            </StackLayout>
+
+            <StackLayout>
+                <Label Text="{Binding HelloWord}}"
+                VerticalOptions="CenterAndExpand" 
+                HorizontalOptions="CenterAndExpand" />
+            </StackLayout>
+
+            <StackLayout>
+                <ScrollView>
+                    <ListView ItemsSource="{Binding UserListesi}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+
+                                <ImageCell Text="{Binding TamAd}" Detail="{Binding KullaniciAdi}" ImageSource="icon.png">
+                                    <ImageCell.ContextActions>
+                                        <MenuItem Icon="update.png" Command="{Binding Path=BindingContext.UserUpdateCommand,Source={x:Reference defaultPage}}" 
+                                                  CommandParameter="{Binding}"></MenuItem>
+
+                                        <MenuItem Text="Delete" Command="{Binding Path=BindingContext.UserDeleteCommand,Source={x:Reference defaultPage}}" 
+                                                  CommandParameter="{Binding}"></MenuItem>
+                                    </ImageCell.ContextActions>
+                                </ImageCell>
+
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </ScrollView>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
